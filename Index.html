@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2B1B3D">
+<title>SUGANDHA AI</title>
+<style>
+:root{--plum:#2B1B3D;--soft:#4A3566;--bg:#FBF7FF;--line:#E6DDF0;--gold:#F2A900;--rose:#B8185A;--leaf:#1F7A5C;--text:#241632;--muted:#6B5E7B}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:"Noto Sans Devanagari",system-ui,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:70px}
+[hidden]{display:none!important}
+header{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--plum);color:#fff}
+.brand{font-weight:700;letter-spacing:.04em}
+#quick{background:none;color:#fff;border:1.5px solid var(--gold);border-radius:99px;padding:6px 14px;font:inherit;font-size:.9rem}
+main{max-width:640px;margin:0 auto;padding:20px 16px}
+h1{font-size:1.5rem;line-height:1.3;margin:4px 0 8px;color:var(--plum)}
+h2{font-size:1.1rem;margin:26px 0 10px;color:var(--soft)}
+.lead{color:var(--muted);margin:0 0 16px}
+.note{border-inline-start:5px solid var(--gold);background:#FFF6DB;padding:12px 14px;border-radius:10px}
+.note p{margin:4px 0 0;font-size:.95rem}
+.list{display:grid;gap:12px}
+.tool{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.ic{flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:1.4rem}
+.name{font-weight:700;display:block}
+.desc{color:var(--muted);font-size:.92rem;display:block}
+.badge{display:inline-block;margin-top:8px;font-size:.78rem;font-weight:600;padding:2px 10px;border-radius:99px;background:#EFE7F7;color:var(--soft)}
+label{display:block;font-weight:600;margin:14px 0 6px}
+select{width:100%;font:inherit;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:#fff}
+.hint{color:var(--muted);font-size:.9rem;margin:8px 0}
+nav{position:fixed;inset-inline:0;bottom:0;height:64px;display:flex;background:#fff;border-top:1px solid var(--line)}
+nav button{flex:1;border:0;background:none;color:var(--muted);font:inherit;font-size:.82rem}
+nav button.on{color:var(--rose);font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <span class="brand">SUGANDHA AI</span>
+  <button id="quick">EN | हिं</button>
+</header>
+
+<main>
+  <section id="v-home">
+    <h1 data-t="home_title"></h1>
+    <p class="lead" data-t="home_lead"></p>
+    <div class="note"><strong data-t="note_title"></strong><p data-t="note_text"></p></div>
+    <h2 data-t="your_tools"></h2>
+    <div class="list" id="l1"></div>
+  </section>
+
+  <section id="v-tools" hidden>
+    <h1 data-t="nav_tools"></h1>
+    <p class="lead" data-t="tools_lead"></p>
+    <div class="list" id="l2"></div>
+  </section>
+
+  <section id="v-settings" hidden>
+    <h1 data-t="nav_settings"></h1>
+    <label for="sel" data-t="language"></label>
+    <select id="sel">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+    </select>
+    <p class="hint" data-t="lang_hint"></p>
+    <h2 data-t="about"></h2>
+    <p class="hint"><span data-t="version"></span> 0.1 (Stage 1)</p>
+    <p class="hint" data-t="ai_notice"></p>
+  </section>
+</main>
+
+<nav>
+  <button data-v="home" class="on" data-t="nav_home"></button>
+  <button data-v="tools" data-t="nav_tools"></button>
+  <button data-v="settings" data-t="nav_settings"></button>
+</nav>
+
+<script>
+// ---- All screen text is kept here, separate from the logic below ----
+const TEXT = {
+  en: {
+    nav_home:"Home", nav_tools:"Tools", nav_settings:"Settings",
+    home_title:"Welcome to SUGANDHA AI",
+    home_lead:"Your assistant for online earning: video ideas, affiliate content, digital products and social media planning.",
+    note_title:"Early version",
+    note_text:"This is Stage 1. The screens and language switch work. The AI tools below are not ready yet.",
+    your_tools:"Your tools",
+    tools_lead:"Five tools are planned. Each one shows when it will be ready.",
+    chat_n:"AI Chat", chat_d:"Ask questions and get earning ideas in Hindi or English.",
+    video_n:"AI Video Creator", video_d:"Video ideas, scripts, scene prompts and captions.",
+    aff_n:"Affiliate Assistant", aff_d:"Product promotion ideas and captions.",
+    dig_n:"Digital Products", dig_d:"Planner and printable ideas, Etsy titles and tags.",
+    soc_n:"Social Media Manager", soc_d:"Content calendars, captions and hashtags.",
+    b2:"Not ready – next stage", b3:"Not ready – coming soon", bl:"Not ready – planned for later",
+    language:"Language",
+    lang_hint:"Hindi and English are available. More languages will be added after testing.",
+    about:"About", version:"Version",
+    ai_notice:"AI answers can be wrong. Check important details yourself before you rely on them."
+  },
+  hi: {
+    nav_home:"होम", nav_tools:"टूल्स", nav_settings:"सेटिंग्स",
+    home_title:"SUGANDHA AI में आपका स्वागत है",
+    home_lead:"ऑनलाइन कमाई के लिए आपका सहायक: वीडियो आइडिया, एफिलिएट कंटेंट, डिजिटल प्रोडक्ट और सोशल मीडिया प्लानिंग।",
+    note_title:"शुरुआती वर्ज़न",
+    note_text:"यह स्टेज 1 है। स्क्रीन और भाषा बदलना काम करता है। नीचे दिए गए AI टूल अभी तैयार नहीं हैं।",
+    your_tools:"आपके टूल्स",
+    tools_lead:"पाँच टूल्स की योजना है। हर टूल पर लिखा है कि वह कब तैयार होगा।",
+    chat_n:"AI चैट", chat_d:"सवाल पूछें और हिंदी या अंग्रेज़ी में कमाई के आइडिया पाएँ।",
+    video_n:"AI वीडियो क्रिएटर", video_d:"वीडियो आइडिया, स्क्रिप्ट, सीन प्रॉम्प्ट और कैप्शन।",
+    aff_n:"एफिलिएट असिस्टेंट", aff_d:"प्रोडक्ट प्रमोशन के आइडिया और कैप्शन।",
+    dig_n:"डिजिटल प्रोडक्ट", dig_d:"प्लानर और प्रिंटेबल के आइडिया, Etsy टाइटल और टैग।",
+    soc_n:"सोशल मीडिया मैनेजर", soc_d:"कंटेंट कैलेंडर, कैप्शन और हैशटैग।",
+    b2:"तैयार नहीं – अगला स्टेज", b3:"तैयार नहीं – जल्द आ रहा है", bl:"तैयार नहीं – बाद में आएगा",
+    language:"भाषा",
+    lang_hint:"हिंदी और अंग्रेज़ी उपलब्ध हैं। टेस्टिंग के बाद और भाषाएँ जोड़ी जाएँगी।",
+    about:"जानकारी", version:"वर्ज़न",
+    ai_notice:"AI के जवाब गलत हो सकते हैं। ज़रूरी बातें इस्तेमाल करने से पहले खुद जाँच लें।"
+  }
+};
+// To add a language later: add it here, add an <option> above, and set rtl for Arabic.
+const RTL = ["ar"];
+
+const TOOLS = [
+  {n:"chat_n", d:"chat_d", i:"💬", c:"#4A3566", b:"b2"},
+  {n:"video_n", d:"video_d", i:"🎬", c:"#B8185A", b:"b3"},
+  {n:"aff_n", d:"aff_d", i:"🛍️", c:"#1F7A5C", b:"bl"},
+  {n:"dig_n", d:"dig_d", i:"📓", c:"#C27A00", b:"bl"},
+  {n:"soc_n", d:"soc_d", i:"📅", c:"#2D6CB5", b:"bl"}
+];
+
+let lang = localStorage.getItem("sugandha_lang") || "en";
+const t = k => (TEXT[lang] && TEXT[lang][k]) || TEXT.en[k] || k;
+
+function draw() {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = RTL.in
